@@ -135,7 +135,7 @@
 	<div style="margin-bottom:72px;"></div>
 	<div id="desc" style="width:100%;padding:10px 0 6px;background-color:#fff;position:fixed;bottom:0;left:0;text-align:center;border-top: 1px #eee solid;">
 		<p class="desc-style">长按图片或截图在微信中识别二维码</p>
-		<a id="linkDesc" class="link-style" href="http://huomaqun.com/?hmsr=details"><span style="color:#576b95;">微友活码</span>&nbsp;&nbsp;提供技术支持</a>
+		<a id="linkDesc" class="link-style" href="http://huomaqun.com/?hmsr=details"><span style="color:#576b95;">静态活码</span>&nbsp;&nbsp;提供技术支持</a>
 	</div>
 	<!-- <div id="dialog">
 		<div id="mask" ontouchstart="touchStart()" ontouchend="touchEnd(4)"></div>
@@ -216,111 +216,7 @@ if (window.location.href !== window.top.location.href) {     window.top.location
 				}
             }
         }
-        $(function(){
-		_hmt.push(['_trackEvent', 'second_page', 'pageview', 'entry']);
-			var URL_DOMAIN = 'https://test.qunsou.co', href = window.location.origin;
-         URL_DOMAIN = 'http://api.huomaqun.com';
-        var uid = getCookie('WEIYOUBOT');
-        if(uid == "" || uid.length<32){
-            var name = "WEIYOUBOT";
-       	    uid = randomChar(32);
-       	    var paths = "/";
-       	    var Days = 30*12;
-            var exp = new Date();
-            exp.setTime(exp.getTime() + Days*24*60*60*1000);
-      		document.cookie = name + "="+ escape (uid) + "; path="+paths+"; expires="+exp.toGMTString();
-        }
-		$("#weiyoubot").bind("click",function(){
-			_hmt.push(['_trackEvent', 'ad_banner', 'click', 'weiyou']);
-			window.location.href="http://weiyouzhushou.cn/?f=huoma_warning";
-		});
-		$("#report a").attr("href","report.html?lid="+getQueryString('lid'));
-        $.ajax({
-            type: 'POST',
-            url: URL_DOMAIN + '/alive/code/v1/custom/info/get',
-            contentType: 'application/json',
-            data: JSON.stringify({uid: uid, liveId: getQueryString('lid')}),
-            // 这里配置的超时时间不能太短，否则很容易超时
-            timeout: 10000,
-            async: true,
-            success: function (data) {
-                if(data.sta == 0) {
-                    var rs = data.data;
-					$('.group-icon').css({opacity:0});
-                    //$('.group-icon').attr('src', rs.headImgUrl);
-                    //$('.group-name').html('★★&nbsp; '+rs.groupName+' &nbsp;★★');
-                    $('.group-qrcode').attr('src', rs.qrcodeUrl);
-					$("#ads").hide();
-					if(rs.scene==-3){
-						$("#desc").hide();
-						$("#ads").show();
-						$("#ads").find("img").attr("src","banner_02.png");
-						$(".group-qrcode").css("margin","10px auto");
-						_hmt.push(['_trackEvent', 'notice_page', 'notice', 'not_exist']);
-						// 进页面统计
-						_hmt.push(['_trackEvent', 'second_page', 'entry', 'entry_notice_page']);
-					}else if(rs.scene==-6){
-						$("#desc").hide();
-						$("#ads").show();
-						$("#ads").find("img").attr("src","banner_02.png");
-						$(".group-qrcode").css("margin","10px auto");
-						_hmt.push(['_trackEvent', 'second_page', 'entry', 'entry_notice_page']);
-						_hmt.push(['_trackEvent', 'notice_page', 'notice', 'overrun']);
-					}else if(rs.scene==-7){
-						$("#desc").hide();
-						$("#ads").show();
-						$("#ads").find("img").attr("src","banner_02.png");
-						$(".group-qrcode").css("margin","10px auto");
-						_hmt.push(['_trackEvent', 'second_page', 'entry', 'entry_notice_page']);
-						_hmt.push(['_trackEvent', 'notice_page', 'notice', 'violation']);
-					}else if(rs.scene==-8){
-						$("#desc").hide();
-						$("#ads").show();
-						$("#ads").find("img").attr("src","banner_02.png");
-						$(".group-qrcode").css("margin","10px auto");
-						_hmt.push(['_trackEvent', 'second_page', 'entry', 'entry_notice_page']);
-						_hmt.push(['_trackEvent', 'notice_page', 'notice', 'violation']);
-					}else if(rs.scene==-9){
-						$("#desc").hide();
-						$("#ads").show();
-						$("#ads").find("img").attr("src","banner_02.png");
-						$(".group-qrcode").css("margin","10px auto");
-						_hmt.push(['_trackEvent', 'second_page', 'entry', 'entry_notice_page']);
-						_hmt.push(['_trackEvent', 'notice_page', 'notice', 'null']);
-					}else{
-						_hmt.push(['_trackEvent', 'second_page', 'entry', 'entry_qrcode_page']);
-						var img=new Image();
-						img.src=rs.qrcodeUrl;
-						img.onload=function(){
-							_hmt.push(['_trackEvent', 'second_page', 'load_success', 'qrcode_pics']);
-						}
-					}
-					$("#loader").hide();
-                    if(rs.overLimit == 0) {
-                        $('#normal').show();
-                    }
-                    else{
-                        $('#finish').show();
-                    }
-					//if(rs.useReserved!=1){
-						$(".desc-style").show();
-					//}else{
-					//	$(".desc-style").hide();
-					//}
-					document.title=rs.title||"活码";
-					//if(rs.scene==-8||rs.scene==-7){
-					//	document.title="该活码涉嫌违规，已暂停使用";
-					//}
-                }
-            },
-            error: function (xhr, errorType, error) {
-                alert('接口获取数据失败！');
-            },
-            complete: function () {
 
-            }
-        });
-		});
     </script>
 
 </body></html>
